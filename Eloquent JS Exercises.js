@@ -83,3 +83,48 @@ for (let i = 1; i <= size; i++) {
         };
     };
 };
+
+// Chessboard (Jordan)
+
+var size = 8;
+
+for (let i = 1; i <= size; i++) {
+    let row = (i % 2 == 0) ? '#' : ' ';
+
+    while (row.length < size) {
+        row += (row[row.length - 1] == '#') ? ' ' : '#';
+    };
+    console.log(row);
+};
+
+// CHAPTER 3: FUNCTIONS
+
+// Minimum
+
+const min = (a, b) => Math.min(a, b);
+
+// Recursion
+
+//fail #1
+function isEven (a) {
+    a == 0 ? true :
+    |a| == 1 ? false :
+    isEven (a - 2);
+};
+
+//fail #2
+function isEven (a) {
+    if (a == 0) {return true}
+        else if (|a| == 1) {return false}
+            else isEven(a - 2);
+}
+
+//works!
+function isEven (a) {
+    a == 0 ? console.log(true):
+    a == 1 ? console.log(false):
+    isEven (a - 2);
+};
+
+// Bean Counting
+
