@@ -1,6 +1,6 @@
 // CHAPTER 2
 // Looping a Tringle (version 1)
-
+/*
 let tri = "#";
 for (let counter = 1; counter <= 7; counter++) {
     let newTri = (tri + "#");
@@ -17,9 +17,14 @@ for (let tri = '#'; ; tri+= '#') {
         console.log(tri);
     }
 };
+*/
+//solution
+for (var line = '#'; line.length < 8; line += '#') {
+    console.log(line);
+}
 
 //FizzBuzz
-
+/*
 for (let i = 1; i <= 100; i++) {
     if (i % 3 == 0 && i % 5 == 0) {
         console.log('FizzBuzz');
@@ -35,8 +40,54 @@ for (let i = 1; i <= 100; i++) {
     }
 }
 
-// Chessboard (Fixed Size)
+// Best (variable start, end, positive/negative step)
 
+const fizz = 'Fizz';
+const buzz = 'Buzz';
+function fizzBuzzPrint(i) {
+    (i % 3 == 0 && i % 5 == 0) ? console.log(fizz + buzz) :
+    (i % 3 == 0) ? console.log(fizz) :
+    (i % 5 == 0) ? console.log(buzz) :
+    console.log(i);
+}
+function fizzBuzz(start, end, step = start < end ? 1 : -1) {
+  if (step > 0) {
+  for (let i = start; i <= end; i += step) fizzBuzzPrint(i);
+  } else {
+  for (let i = start; i >= end; i += step) fizzBuzzPrint(i);
+  }
+}
+
+//solution
+for (var n = 1; n <= 100; n++) {
+    var output = "";
+    if (n % 3 == 0)
+        output += "Fizz";
+    if (n % 5 == 0)
+        output += "Buzz";
+    console.log(output || n);
+}
+*/
+//absolute best
+function fizzBuzzPrint (i) {
+  var output = "";
+  if (i % 3 == 0)
+    output += "Fizz";
+  if (i % 5 == 0)
+    output += "Buzz";
+  console.log(output || i);
+}
+
+function fizzBuzz(start, end, step = start < end ? 1 : -1) {
+  if (step > 0) {
+  for (let i = start; i <= end; i += step) fizzBuzzPrint(i);
+  } else {
+  for (let i = start; i >= end; i += step) fizzBuzzPrint(i);
+  }
+}
+
+// Chessboard (Fixed Size)
+/*
 for (let i = 1; i <= 8; i++) {
     if (i % 2 == 0) {
         console.log('# # # # ')
@@ -96,12 +147,40 @@ for (let i = 1; i <= size; i++) {
     };
     console.log(row);
 };
+*/
+// Chessboard (flexi cols & rows)
+function chessboard(cols, rows) {
+  for (let i = 1; i <= rows; i++) {
+    let row = (i % 2 == 0) ? '#' : ' ';
+    while (row.length < cols) {
+      row += (row[row.length - 1] == '#') ? ' ' : '#';
+    }
+    console.log(row);
+  }
+}
+
+// Chessboard (newline solution)
+var size = 8;
+var board = '';
+for (var y = 0; y < size; y++) {
+    for (var x = 0; x < size; x++) {
+        ((x + y) % 2 == 0) ? board += ' ' : board += '#';
+    }
+    board += '\n';
+}
+console.log(board);
 
 // CHAPTER 3: FUNCTIONS
 
 // Minimum
 
 const min = (a, b) => Math.min(a, b);
+
+// solution
+function min(a, b) {
+    if (a > b) return a;
+    else return b;
+}
 
 // Recursion
 
@@ -133,10 +212,19 @@ function isEven (a) {
     isEven (Math.abs(a) - 2);
 };
 
+// solution
+function isEven(n) {
+    if (n == 0) return true;
+    else if (n == 1) return false;
+    else if (n < 0) return isEven(-n);
+    else return isEven(n - 2);
+}
+
 // Bean Counting
+
 function countBs (string) {
     let counter = 0;
-    for (i = 0; i < string.length; i++) {
+    for (let i = 0; i < string.length; i++) {
         if (string[i] == 'B') {
             counter++
         } 
@@ -146,7 +234,7 @@ function countBs (string) {
 
 function countChar (string, char) {
     let counter = 0;
-    for (i = 0; i < string.length; i++) {
+    for (let i = 0; i < string.length; i++) {
         if (string[i] == char) {
             counter++
         } 
@@ -159,20 +247,6 @@ function countBs (string) {
 }
 
 // CHAPTER 4: OBJECTS
-
-// Checking object key equality (incomplete)
-
-eqObj = (objA, objB) => {
-  Object.keys(objA).length != Object.keys(objB).length ? console.log('different'):
-  eqKeys(objA, objB);
-  function eqKeys(a, b) {
-    let i=0;
-    while i<Object.keys(objA).length {
-        Object.keys(objA)[i] != Object.keys(objB)[i] ? console.log('different'): i++
-    };
-    i=Object.keys(objA).length ? console.log('same!') : console.log('different');
-  }
-  };
 
 // The Weresquirrel (notes)
 
@@ -325,11 +399,11 @@ console.log(JSON.parse(string).events);
 
 // Exercises
 
-// Sum of a range (work in progress)
+// Sum of a range
 
 function range(start, end, step) {
     let numArray = [];
-    for (let n = start; n < (end + 1); n += Math.abs(step)) {
+    for (let n = start; step < 0 ? n > (end - 1) : n < (end + 1); n += step || 1) {
         numArray.push(n)
     }
     return numArray
@@ -343,6 +417,27 @@ function sum(numbers) {
 
 console.log(sum(range(start, end, step)));
 
+// solution
+function range(start, end, step = start < end ? 1 : -1) {
+    let array = [];
+
+    if (step > 0) {
+        for (let i = start; i <= end; i += step) array.push(i);
+        } else {
+            for (let i = start; i >= end; i += step) array.push(i);
+        }
+    return array;
+    }
+
+function sum(array) {
+    let total = 0;
+    for (let value of array) {
+        total += value;
+    }
+    return total;
+}
+
+
 // Reversing an Array
 
 var reverseArray = sourceArr => {
@@ -353,8 +448,6 @@ var reverseArray = sourceArr => {
   return targetArr;
 }
 
-var reverseArrayInPlace
-
 var reverseArrayInPlace = sourceArray => {
   for (i = 0; i < (sourceArray.length - 1); i++) {
     sourceArray.unshift(sourceArray[i+1]);
@@ -363,4 +456,53 @@ var reverseArrayInPlace = sourceArray => {
   return sourceArray
 }
 
+//solution
+function reverseArray(array) {
+    let output = [];
+    for (let i = array.length - 1; i >= 0; i--) {
+        output.push(array[i]);
+    }
+    return output;
+}
+
+function reverseArrayInPlace(array) {
+    for (let i = 0; i < Math.floor(array.length / 2); i++) {
+        let old = array[i];
+        array[i] = array[array.length - 1 - i];
+        array[array.length - 1 - i] = old;
+    }
+    return array;
+}
+
+// A List
+
+function arrayToList(arr) {
+    let list = {};
+    for (i = 0; i < arr.length; i++) {
+        list = {value: arr[arr.length - 1 - i],
+                rest: list
+            }
+    }
+    return list;
+};
+
+function listToArray(obj) {
+    let array = [];
+    for (value in obj) 
+}
+
+
+// Deep Comparison
+
+function deepEqual (a, b) {
+  Object.keys(objA).length != Object.keys(objB).length ? console.log('different'):
+  eqKeys(objA, objB);
+  function eqKeys(a, b) {
+    let i=0;
+    while i<Object.keys(objA).length {
+        Object.keys(objA)[i] != Object.keys(objB)[i] ? console.log('different'): i++
+    };
+    i=Object.keys(objA).length ? console.log('same!') : console.log('different');
+  }
+  };
 
