@@ -476,33 +476,52 @@ function reverseArrayInPlace(array) {
 
 // A List
 
-function arrayToList(arr) {
-    let list = {};
-    for (i = 0; i < arr.length; i++) {
-        list = {value: arr[arr.length - 1 - i],
-                rest: list
-            }
+function arrayToList(array) {
+    let newList = null;
+  for (let i = array.length - 1; i >= 0; i--) {
+    newList = {
+      value: array[i],
+      rest: newList
     }
-    return list;
-};
-
-function listToArray(obj) {
-    let array = [];
-    for (value in obj) 
+  }
+  return newList;
 }
+
+/*
+// attempt #1
+function listToArray(list) {
+  let array = [];
+  function arrayBuilder(list) {
+    for (prop in list) { // unordered list can create problems in order of items?
+      if (prop == "value") {array.push(list.value);}
+      if (prop == "rest") {arrayBuilder(list.rest);}
+    }
+  }
+  arrayBuilder(list);
+  return array;
+}
+*/
+
+// better solution
+function listToArray(list) {
+  let array = [];
+  for (let node = list; node; node = node.rest) {
+    array.push(node.value);
+  }
+  return array;
+}
+
+function prepend (element, list) {
+  let newList = {
+    value: element,
+    rest: list
+  }
+  return newList;
+}
+
 
 
 // Deep Comparison
 
-function deepEqual (a, b) {
-  Object.keys(objA).length != Object.keys(objB).length ? console.log('different'):
-  eqKeys(objA, objB);
-  function eqKeys(a, b) {
-    let i=0;
-    while i<Object.keys(objA).length {
-        Object.keys(objA)[i] != Object.keys(objB)[i] ? console.log('different'): i++
-    };
-    i=Object.keys(objA).length ? console.log('same!') : console.log('different');
-  }
-  };
+
 
